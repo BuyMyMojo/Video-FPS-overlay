@@ -21,7 +21,7 @@ Resolution = 1440
 CSVPath = "FrameView-CSV\FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv"
 OutFolder = "test video\\"
 colour = "r"
-transparentBackground = False
+transparentBackground = True
 
 
 # reading CSV file
@@ -72,10 +72,10 @@ for i in range(VideoFrames):
     lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour)
 
     # save as png
-    plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=False)
+    plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
     ax.cla()
 
-    print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + ' FPS graph')
+    print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames) + "%" + ' FPS graph')
 
     del trimRange
     del Xaxis
