@@ -13,7 +13,7 @@ from pandas import *
 import gc
 
 # settings
-# x axis values (30 frame range for testing)
+# x axis values (80 frame range for testing)
 PresetFrameRange = 80
 VideoFrames = 41128
 Title = "Test1"
@@ -34,7 +34,7 @@ del FullFrameTimes
 gc.collect()
 # add Frame Range -1 blank values at the start for the animation
 for j in range(PresetFrameRange):
-    # FullFrameTimes.insert(0, 0)
+    # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
     FUllFrameRate.insert(0, 0)
 
 # setup graph
@@ -63,7 +63,7 @@ for i in range(VideoFrames):
     Xaxis = [t for t in range(PresetFrameRange)]
     # plt.xlim(Xaxis[0] - Xaxis[60], Xaxis[60])
 
-    lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color="red")
+    lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour)
     # lines.set_data(Xaxis, FUllFrameRate[i:trimRange])
 
     # save as png
