@@ -37,6 +37,24 @@ for j in range(PresetFrameRange):
     # FullFrameTimes.insert(0, 0)
     FUllFrameRate.insert(0, 0)
 
+# setup graph
+fig, ax = plt.subplots()
+fig.patch.set_alpha(0.0)
+if Resolution == 720:
+    DPI = 45
+elif Resolution == 1080:
+    DPI = 120
+elif Resolution == 1440:
+    DPI = 160
+elif Resolution == 2160:
+    DPI = 240
+
+fig.dpi = DPI
+fig.set_size_inches(16, 4)
+ax.set_ylim(0, 120)
+ax.set_ylabel('FPS')
+ax.set_title(Title)
+
 for i in range(VideoFrames):
     plt.close("all")
     trimRange = PresetFrameRange+i
@@ -45,31 +63,14 @@ for i in range(VideoFrames):
     Xaxis = [t for t in range(PresetFrameRange)]
     # plt.xlim(Xaxis[0] - Xaxis[60], Xaxis[60])
 
-    # setup graph
-    fig, ax = plt.subplots()
-    fig.patch.set_alpha(0.0)
-    if Resolution == 720:
-        DPI = 45
-    elif Resolution == 1080:
-        DPI = 120
-    elif Resolution == 1440:
-        DPI = 160
-    elif Resolution == 2160:
-        DPI = 240
-    
-    fig.dpi = DPI
-    fig.set_size_inches(16, 4)
-    ax.set_ylim(0, 120)
     lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color="red")
     # lines.set_data(Xaxis, FUllFrameRate[i:trimRange])
-    ax.set_ylabel('FPS')
-    ax.set_title(Title)
 
     # save as png
     plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=False)
     ax.cla()
     plt.close('all')
-    
+
     print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + ' FPS graph')
 
     del trimRange
