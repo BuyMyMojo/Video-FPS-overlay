@@ -21,10 +21,11 @@ Resolution = 1440
 CSVPath = "FrameView-CSV\FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv"
 OutFolder = "test video\\"
 colour = "r"
+transparentBackground = False
 
 
 # reading CSV file
-FpsData = read_csv("FrameView-CSV\\FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv")
+FpsData = read_csv(CSVPath)
 
 # grab all frame times
 FullFrameTimes = FpsData['MsBetweenPresents'].tolist()
@@ -39,7 +40,14 @@ for j in range(PresetFrameRange):
 
 # setup graph
 fig, ax = plt.subplots()
-fig.patch.set_alpha(0.0)
+Transparency = 1.0
+if transparentBackground == True:
+    Transparency = 0.0
+
+
+fig.patch.set_alpha(Transparency)
+
+
 if Resolution == 720:
     DPI = 45
 elif Resolution == 1080:
@@ -56,20 +64,16 @@ ax.set_ylabel('FPS')
 ax.set_title(Title)
 
 for i in range(VideoFrames):
-    plt.close("all")
     trimRange = PresetFrameRange+i
 
     Xaxis = []
     Xaxis = [t for t in range(PresetFrameRange)]
-    # plt.xlim(Xaxis[0] - Xaxis[60], Xaxis[60])
 
     lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour)
-    # lines.set_data(Xaxis, FUllFrameRate[i:trimRange])
 
     # save as png
     plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=False)
     ax.cla()
-    plt.close('all')
 
     print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + ' FPS graph')
 
@@ -77,3 +81,5 @@ for i in range(VideoFrames):
     del Xaxis
     del lines
     gc.collect()
+
+print("Completed!")
