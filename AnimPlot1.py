@@ -60,8 +60,7 @@ for i in range(VideoFrames):
     fig.dpi = DPI
     fig.set_size_inches(16, 4)
     ax.set_ylim(0, 120)
-    ax.set_xlim(Xaxis[0], Xaxis[60])
-    lines = ax.plot(Xaxis, FUllFrameRate[i+20:trimRange+20], color="red")
+    lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color="red")
     # lines.set_data(Xaxis, FUllFrameRate[i:trimRange])
     ax.set_ylabel('FPS')
     ax.set_title(Title)
