@@ -23,6 +23,7 @@ def main():
     CSVPath = "FrameView-CSV\FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv"
     OutFolder = "test video\\"
     colour = "r"
+    BackColour = "white"
     transparentBackground = True
 
 
@@ -40,11 +41,11 @@ def main():
         # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
         FUllFrameRate.insert(0, 0)
     
-    FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, OutFolder)
+    FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder)
 
     
 
-def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, OutFolder):
+def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder):
 
     # setup graph
     fig, ax = plt.subplots()
@@ -70,6 +71,7 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
     ax.set_ylabel('FPS')
     ax.set_title(Title)
 
+
     # generate graph frames
     for i in range(VideoFrames):
         trimRange = PresetFrameRange+i
@@ -80,6 +82,11 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
         lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour)
 
         ax.set_ylim(0, 120)
+        ax.tick_params(axis='both', colors=BackColour)
+        ax.spines['left'].set_color(BackColour)
+        ax.spines['right'].set_color(BackColour)
+        ax.spines['top'].set_color(BackColour)
+        ax.spines['bottom'].set_color(BackColour)
 
         # save as png
         plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
