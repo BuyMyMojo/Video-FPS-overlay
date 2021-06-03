@@ -5,8 +5,8 @@ import argparse as argp
 import os
 import sys
 from time import time
+import matplotlib 
 from matplotlib import pyplot as plt
-from matplotlib import animation
 from pandas import *
 import gc
 
@@ -188,7 +188,7 @@ def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, y
         ax.spines['bottom'].set_color(BackColour)
 
         # save as png
-        plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
+        plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground, backend='Agg')
         ax.cla()
 
         print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')

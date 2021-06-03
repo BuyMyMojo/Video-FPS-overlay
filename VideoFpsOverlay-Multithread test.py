@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 from pandas import *
 import gc
-import threading
+import multiprocessing
+from multiprocessing import Pool
 
 def main(args):
 
@@ -42,19 +43,54 @@ def main(args):
     elif args.f == "MS":
         FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)
     elif args.f == "MH":
-        # run graph in multi thread
-        t1 = threading.Thread(target=FpsGraphMH, args=(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour,))
-        t2 = threading.Thread(target=FpsGraphMH, args=(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour,))
-
-        t1.start()
-        t2.start()
-
-        t1.join()
-        t2.join()
+        if __name__ == '__main__':
+            pool = Pool()
+            pool.starmap(FpsGraphMH, [(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)])
         # FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)
     else:
         return(print("Make sure you have the right format set"))
 
+def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground):
+    # generate graph frames
+    start = time()
+    for i in range(VideoFrames):
+        trimRange = PresetFrameRange+i
+
+        Xaxis = []
+        Xaxis = [t for t in range(PresetFrameRange)]
+
+        lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour, linewidth=LineWidth)
+
+        ax.set_ylim(ymin, ymax)
+        fig.dpi = DPI
+        fig.set_size_inches(16, 4)
+        ax.set_ylabel('FPS')
+        ax.set_title(Title, {'color': TextColour})
+        ax.xaxis.label.set_color(TextColour)
+        ax.yaxis.label.set_color(TextColour)
+        ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
+        ax.spines['left'].set_visible(RemoveBox)
+        ax.spines['right'].set_visible(RemoveBox)
+        ax.spines['bottom'].set_visible(RemoveBox)
+        ax.spines['top'].set_visible(RemoveBox)
+        ax.spines['left'].set_color(BackColour)
+        ax.spines['right'].set_color(BackColour)
+        ax.spines['top'].set_color(BackColour)
+        ax.spines['bottom'].set_color(BackColour)
+
+        # save as png
+        plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
+        ax.cla()
+
+        print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')
+
+        del trimRange
+        del Xaxis
+        del lines
+        gc.collect()
+
+    print("Completed!")
+    print(f'Time taken: {time() - start}')
 
 def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour):
 
@@ -166,54 +202,12 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
         DPI = 240
 
 
-
-
     graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground)
 
 
 
 
-def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground):
-    # generate graph frames
-    start = time()
-    for i in range(VideoFrames):
-        trimRange = PresetFrameRange+i
 
-        Xaxis = []
-        Xaxis = [t for t in range(PresetFrameRange)]
-
-        lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour, linewidth=LineWidth)
-
-        ax.set_ylim(ymin, ymax)
-        fig.dpi = DPI
-        fig.set_size_inches(16, 4)
-        ax.set_ylabel('FPS')
-        ax.set_title(Title, {'color': TextColour})
-        ax.xaxis.label.set_color(TextColour)
-        ax.yaxis.label.set_color(TextColour)
-        ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
-        ax.spines['left'].set_visible(RemoveBox)
-        ax.spines['right'].set_visible(RemoveBox)
-        ax.spines['bottom'].set_visible(RemoveBox)
-        ax.spines['top'].set_visible(RemoveBox)
-        ax.spines['left'].set_color(BackColour)
-        ax.spines['right'].set_color(BackColour)
-        ax.spines['top'].set_color(BackColour)
-        ax.spines['bottom'].set_color(BackColour)
-
-        # save as png
-        plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
-        ax.cla()
-
-        print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')
-
-        del trimRange
-        del Xaxis
-        del lines
-        gc.collect()
-
-    print("Completed!")
-    print(f'Time taken: {time() - start}')
 
 # setup argparse
 parser = argp.ArgumentParser(description='''Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).
