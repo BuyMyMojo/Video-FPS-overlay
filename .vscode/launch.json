@@ -5,11 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "FPS Overlay MS",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "args": ["-f", "MS", "D:/MSi-Benchmark/HardwareMonitoring.hml", "./test video 1/"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "FPS Overlay NV",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": ["-f", "NV", "F:/Documents/GitHub/Video-FPS-overlay/FrameView-CSV/FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv", "./test video 1/"],
             "console": "integratedTerminal"
         }
     ]
