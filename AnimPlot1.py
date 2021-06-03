@@ -16,8 +16,7 @@ import gc
 def main():
 
     # settings
-    # x axis values (80 frame range for testing)
-    PresetFrameRange = 80
+    PresetFrameRange = 90
     VideoFrames = 41128
     Title = "Test1"
     Resolution = 1440
@@ -57,18 +56,17 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution == 720:
+    if Resolution == 720 or 1280:
         DPI = 45
-    elif Resolution == 1080:
+    elif Resolution == 1080 or 1920:
         DPI = 120
-    elif Resolution == 1440:
+    elif Resolution == 1440 or 2560:
         DPI = 160
-    elif Resolution == 2160:
+    elif Resolution == 2160 or 3840:
         DPI = 240
 
     fig.dpi = DPI
     fig.set_size_inches(16, 4)
-    ax.set_ylim(0, 120)
     ax.set_ylabel('FPS')
     ax.set_title(Title)
 
@@ -80,6 +78,8 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
         Xaxis = [t for t in range(PresetFrameRange)]
 
         lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour)
+
+        ax.set_ylim(0, 120)
 
         # save as png
         plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
