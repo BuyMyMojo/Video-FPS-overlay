@@ -130,7 +130,5 @@ parser.add_argument('-rl', metavar='bool', type=bool, help='Disable numbers arou
 
 args = parser.parse_args()
 
-if len(sys.argv) == 1:
-    parser.print_help()
-elif len(sys.argv) != 1:
+if len(sys.argv) != 1:
     main(args)
