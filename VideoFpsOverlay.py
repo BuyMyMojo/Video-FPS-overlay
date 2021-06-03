@@ -112,7 +112,7 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
     print("Completed!")
 
 # setup argparse
-parser = argparse.ArgumentParser(description='Generates image sequences from FPS/FrameTime information captured by Nvidia FrameView.', allow_abbrev=False)
+parser = argparse.ArgumentParser(description='Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).', allow_abbrev=False)
 
 # add arguments
 parser.add_argument('CSV', metavar='CSV', type=str, help='The path to your CSV file')
