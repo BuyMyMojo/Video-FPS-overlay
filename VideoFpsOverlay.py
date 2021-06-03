@@ -32,6 +32,7 @@ def main(args):
     RemoveNumbers = not args.rl
     ymin = args.ymin
     ymax = args.ymax
+    TextColour = args.tc
 
 
     # reading CSV file
@@ -48,10 +49,10 @@ def main(args):
         # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
         FUllFrameRate.insert(0, 0)
     
-    FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax)
+    FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)
 
 
-def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax):
+def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour):
 
     # setup graph
     fig, ax = plt.subplots()
@@ -86,7 +87,9 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
         fig.dpi = DPI
         fig.set_size_inches(16, 4)
         ax.set_ylabel('FPS')
-        ax.set_title(Title)
+        ax.set_title(Title, {'color': TextColour})
+        ax.xaxis.label.set_color(TextColour)
+        ax.yaxis.label.set_color(TextColour)
         ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
         ax.spines['left'].set_visible(RemoveBox)
         ax.spines['right'].set_visible(RemoveBox)
@@ -121,6 +124,7 @@ parser.add_argument('-t', metavar='Title', type=str, help='Set the title of the 
 parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in data points (example: 90 will have the graph show 90 data values at once) ', default=90)
 parser.add_argument('-lc', metavar='Colour', type=str, help='Set the colour of the line [format: matplotlib colors] [default: red]', default="r")
 parser.add_argument('-bc', metavar='Colour', type=str, help='Set the colour of the axis and markers [format: matplotlib colors] [default: black]', default="black")
+parser.add_argument('-tc', metavar='Colour', type=str, help='Set the colour of the text [format: matplotlib colors] [default: black]', default="black")
 parser.add_argument('-tb', metavar='bool', type=bool, help='Set background of the graph to transparent [default: True]', default=True)
 parser.add_argument('-lw', metavar='width', type=int, help='Set line width [default: 1]', default=1)
 parser.add_argument('-rb', metavar='bool', type=bool, help='Disable box around line [default: False]', default=False)
