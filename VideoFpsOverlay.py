@@ -104,7 +104,7 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
         plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
         ax.cla()
 
-        print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames) + "%" + ' FPS graph')
+        print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')
 
         del trimRange
         del Xaxis
