@@ -3,15 +3,12 @@
 # importing the required modules
 import argparse as argp
 import os
-import statistics
 import sys
 
 from matplotlib import pyplot as plt
 from matplotlib import animation
-import numpy as np
 from pandas import *
 import gc
-import argparse
 
 def main(args):
 
@@ -112,7 +109,7 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
     print("Completed!")
 
 # setup argparse
-parser = argparse.ArgumentParser(description='Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).', allow_abbrev=False)
+parser = argp.ArgumentParser(description='Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).', allow_abbrev=False)
 
 # add arguments
 parser.add_argument('CSV', metavar='CSV', type=str, help='The path to your CSV file')
