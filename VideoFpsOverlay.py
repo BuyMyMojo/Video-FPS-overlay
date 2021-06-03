@@ -38,6 +38,8 @@ def main(args):
         FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)
     elif args.f == "MS":
         FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)
+    elif args.f == "MH":
+        FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour)
     else:
         return(print("Make sure you have the right format set"))
 
@@ -88,6 +90,43 @@ def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # grab all frame times
     FUllFrameRate = FpsData.tolist()
     FUllFrameRate = FUllFrameRate[31:]
+    VideoFrames = len(FUllFrameRate)
+    gc.collect()
+    # add Frame Range -1 blank values at the start for the animation
+    for j in range(PresetFrameRange):
+        # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
+        FUllFrameRate.insert(0, 0)
+
+    # setup graph
+    fig, ax = plt.subplots()
+    Transparency = 1.0
+    if transparentBackground == True:
+        Transparency = 0.0
+
+
+    fig.patch.set_alpha(Transparency)
+
+
+    if Resolution == 720:
+        DPI = 45
+    elif Resolution == 1080:
+        DPI = 120
+    elif Resolution == 1440:
+        DPI = 160
+    elif Resolution == 2160:
+        DPI = 240
+
+    # run graph
+    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground)
+
+
+def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour):
+
+    # reading CSV file
+    FpsData = read_csv(CSVPath, skiprows=2, usecols=[0], squeeze=True)
+
+    # grab all frame times
+    FUllFrameRate = FpsData.tolist()
     VideoFrames = len(FUllFrameRate)
     gc.collect()
     # add Frame Range -1 blank values at the start for the animation

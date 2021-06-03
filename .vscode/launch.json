@@ -19,6 +19,14 @@
             "program": "${file}",
             "args": ["-f", "NV", "F:/Documents/GitHub/Video-FPS-overlay/FrameView-CSV/FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv", "./test video 1/"],
             "console": "integratedTerminal"
+        },
+        {
+            "name": "FPS Overlay MH",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": ["-f", "MH", "F:/Documents/GitHub/Video-FPS-overlay/mangohud-CSV/glxgears_2021-06-03_21-32-02.csv", "./test video 1/"],
+            "console": "integratedTerminal"
         }
     ]
 }
