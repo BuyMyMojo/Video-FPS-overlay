@@ -4,11 +4,13 @@
 import argparse as argp
 import os
 import sys
-from time import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from matplotlib import pyplot as plt
 from matplotlib import animation
 from pandas import *
+from time import time
 import gc
+import multiprocessing
 
 def main(args):
 
@@ -74,46 +76,49 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
         DPI = 240
 
 
-    # generate graph frames
     start = time()
+    # generate graph frames
     for i in range(VideoFrames):
-        trimRange = PresetFrameRange+i
-
-        Xaxis = []
-        Xaxis = [t for t in range(PresetFrameRange)]
-
-        lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour, linewidth=LineWidth)
-
-        ax.set_ylim(ymin, ymax)
-        fig.dpi = DPI
-        fig.set_size_inches(16, 4)
-        ax.set_ylabel('FPS')
-        ax.set_title(Title, {'color': TextColour})
-        ax.xaxis.label.set_color(TextColour)
-        ax.yaxis.label.set_color(TextColour)
-        ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
-        ax.spines['left'].set_visible(RemoveBox)
-        ax.spines['right'].set_visible(RemoveBox)
-        ax.spines['bottom'].set_visible(RemoveBox)
-        ax.spines['top'].set_visible(RemoveBox)
-        ax.spines['left'].set_color(BackColour)
-        ax.spines['right'].set_color(BackColour)
-        ax.spines['top'].set_color(BackColour)
-        ax.spines['bottom'].set_color(BackColour)
-
-        # save as png
-        plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
-        ax.cla()
-
-        print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')
-
-        del trimRange
-        del Xaxis
-        del lines
-        gc.collect()
+        FrameViewLoop(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, i, ax, fig, DPI)
 
     print("Completed!")
     print(f'Time taken: {time() - start}')
+        
+def FrameViewLoop(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, i, ax, fig, DPI):
+    trimRange = PresetFrameRange+i
+
+    Xaxis = []
+    Xaxis = [t for t in range(PresetFrameRange)]
+
+    lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour, linewidth=LineWidth)
+
+    ax.set_ylim(ymin, ymax)
+    fig.dpi = DPI
+    fig.set_size_inches(16, 4)
+    ax.set_ylabel('FPS')
+    ax.set_title(Title, {'color': TextColour})
+    ax.xaxis.label.set_color(TextColour)
+    ax.yaxis.label.set_color(TextColour)
+    ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
+    ax.spines['left'].set_visible(RemoveBox)
+    ax.spines['right'].set_visible(RemoveBox)
+    ax.spines['bottom'].set_visible(RemoveBox)
+    ax.spines['top'].set_visible(RemoveBox)
+    ax.spines['left'].set_color(BackColour)
+    ax.spines['right'].set_color(BackColour)
+    ax.spines['top'].set_color(BackColour)
+    ax.spines['bottom'].set_color(BackColour)
+
+    # save as png
+    plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground)
+    ax.cla()
+
+    print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')
+
+    del trimRange
+    del Xaxis
+    del lines
+    gc.collect()
 
 # setup argparse
 parser = argp.ArgumentParser(description='Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).', allow_abbrev=False)
