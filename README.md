@@ -38,3 +38,7 @@
 | ------------ | ------------ | ------------ | ------------ |
 | FPS | Y  | N  | N  |
 | Frame Time | N  |  N |  N |
+
+#### pip requirements
+- pandas
+- matplotlib
