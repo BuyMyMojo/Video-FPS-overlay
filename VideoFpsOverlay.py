@@ -30,6 +30,8 @@ def main(args):
     LineWidth = args.lw
     RemoveBox = not args.rb
     RemoveNumbers = not args.rl
+    ymin = args.ymin
+    ymax = args.ymax
 
 
     # reading CSV file
@@ -46,10 +48,10 @@ def main(args):
         # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
         FUllFrameRate.insert(0, 0)
     
-    FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers)
+    FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax)
 
 
-def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers):
+def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax):
 
     # setup graph
     fig, ax = plt.subplots()
@@ -80,7 +82,7 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
 
         lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour, linewidth=LineWidth)
 
-        ax.set_ylim(0, 120)
+        ax.set_ylim(ymin, ymax)
         fig.dpi = DPI
         fig.set_size_inches(16, 4)
         ax.set_ylabel('FPS')
@@ -123,6 +125,8 @@ parser.add_argument('-tb', metavar='bool', type=bool, help='Set background of th
 parser.add_argument('-lw', metavar='width', type=int, help='Set line width [default: 1]', default=1)
 parser.add_argument('-rb', metavar='bool', type=bool, help='Disable box around line [default: False]', default=False)
 parser.add_argument('-rl', metavar='bool', type=bool, help='Disable numbers around edge [default: False]', default=False)
+parser.add_argument('-ymin', metavar='min', type=int, help='Set min y axis range [default: 0]', default=0)
+parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range [default: 120]', default=120)
 
 
 args = parser.parse_args()
