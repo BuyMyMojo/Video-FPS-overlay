@@ -43,6 +43,19 @@ def main():
     
     FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder)
 
+def help():
+    print("""
+    AnimPlot1.py: AnimPlot1.py [CSV path] [-F]
+                  AnimPlot1.py [-h]
+    Generates image sequences from FPS/FrameTime information captured by Nvidia FrameView.
+
+    Options:
+      -F        CSV is from Nvidia FrameView
+      -h        Shows this page
+        CSV path
+
+    Arguments:
+      CSV path   Location of the CSV you are generating the graph from""")
     
 
 def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Title, PresetFrameRange, FUllFrameRate, colour, BackColour, OutFolder):
@@ -101,4 +114,10 @@ def FpsGraphNvidiaFrameview(transparentBackground, Resolution, VideoFrames, Titl
 
     print("Completed!")
 
-main()
+
+if len(sys.argv) == 1:
+    help()
+elif len(sys.argv) == 2 and sys.argv[1] == "-h":
+    help()
+elif len(sys.argv) != 1:
+    main()
