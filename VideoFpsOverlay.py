@@ -194,7 +194,8 @@ def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     print(f'Time taken: {time() - start}')
 
 # setup argparse
-parser = argp.ArgumentParser(description='Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).', allow_abbrev=False)
+parser = argp.ArgumentParser(description='''Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).
+Supported files: .csv and MSI Afterburner .hml''', allow_abbrev=False)
 
 # add arguments
 parser.add_argument('CSV', metavar='CSV', type=str, help='The path to your CSV file')
