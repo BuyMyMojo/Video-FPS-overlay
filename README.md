@@ -46,8 +46,6 @@
 
 ### WIP
 
-- Mangohud Support
-- MSI Afterburner support
 - Jpeg export
 - Auto overlay on video
 
