@@ -304,8 +304,8 @@ parser.add_argument('-rb', metavar='bool', type=bool, help='Disable box around l
 parser.add_argument('-rl', metavar='bool', type=bool, help='Disable numbers around edge [default: False]', default=False)
 parser.add_argument('-ymin', metavar='min', type=int, help='Set min y axis range [default: 0]', default=0)
 parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range [default: 120]', default=120)
-parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph [Defaults: 16 for FPS | X for FT]', default=None)
-parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph [Defaults: 4 for FPS | X for FT]', default=None)
+parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | X for FT]', default=None)
+parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 4 for FPS | X for FT]', default=None)
 
 
 
