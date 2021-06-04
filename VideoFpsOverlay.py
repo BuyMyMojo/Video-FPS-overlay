@@ -39,11 +39,12 @@ def main(args):
     grid = args.g
     FPSLocation = args.fl
     mode = args.m
+    ticks = args.ft
     
 
     if mode == "FPS":
         if args.f == "NV":
-            FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
+            FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, )
         elif args.f == "MS":
             FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
         elif args.f == "MH":
@@ -52,11 +53,11 @@ def main(args):
             return(print("Make sure you have the right format set"))
     elif mode == "FT":
         if args.f == "NV":
-            FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
+            FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
         elif args.f == "MS":
-            FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
+            FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
         elif args.f == "MH":
-            FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
+            FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
         else:
             return(print("Make sure you have the right format set"))
     else:
@@ -108,7 +109,7 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # run graph
     graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode)
 
-def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode):
+def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks):
 
     # reading CSV file
     FpsData = read_csv(CSVPath)
@@ -155,7 +156,7 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
         ymax = 50
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FullFrameTimes, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode)
+    graph(VideoFrames, PresetFrameRange, ax, FullFrameTimes, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
 
 def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode):
 
@@ -246,7 +247,7 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
 
 
 
-def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode):
+def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks=4):
     # generate graph frames
     start = time()
     for i in range(VideoFrames):
@@ -276,6 +277,11 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.xaxis.label.set_color(TextColour)
         ax.yaxis.label.set_color(TextColour)
         ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
+        if mode == "FT":
+            if ticks == 3:
+                plt.yticks([0, ymax/2, ymax])
+            elif ticks == 4:
+                plt.yticks([0, ymax/3, ymax/3*2, ymax])
         if FPSLocation == "left":
             ax.tick_params(axis='y', labelleft=True, labelright=False)
         elif FPSLocation == "right":
@@ -335,6 +341,7 @@ parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range
 parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | 12 for FT]', default=None)
 parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 4 for FPS | 4 for FT]', default=None)
 parser.add_argument('-fl', metavar='Location', type=str, help='Set the location of the FPS numbers (left, right, both) [Default: right]', default="right")
+parser.add_argument('-ft', metavar='amount', type=int, help='Set the ammount of FRAME TIME values to show (3 or 4) [Defaults: 4]', default=4)
 
 
 args = parser.parse_args()
