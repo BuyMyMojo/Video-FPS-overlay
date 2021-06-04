@@ -254,6 +254,7 @@ def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, y
         lines = ax.plot(Xaxis, FUllFrameRate[i:trimRange], color=colour, linewidth=LineWidth)
 
         ax.set_ylim(ymin, ymax)
+        ax.set_xlim(0, PresetFrameRange)
         fig.dpi = DPI
         fig.set_size_inches(xsize, ysize)
         ax.set_ylabel('FPS')
