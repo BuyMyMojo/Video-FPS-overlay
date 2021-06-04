@@ -36,25 +36,26 @@ def main(args):
     xsize = args.xinch
     ysize = args.yinch
     centerLine = args.cl
+    grid = args.g
 
     
 
     if args.m == "FPS":
         if args.f == "NV":
-            FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine)
+            FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid)
         elif args.f == "MS":
-            FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine)
+            FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid)
         elif args.f == "MH":
-            FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine)
+            FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid)
         else:
             return(print("Make sure you have the right format set"))
     elif args.m == "FT":
         if args.f == "NV":
-            FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine)
+            FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid)
         elif args.f == "MS":
-            FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine)
+            FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid)
         elif args.f == "MH":
-            FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine)
+            FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid)
         else:
             return(print("Make sure you have the right format set"))
     else:
@@ -62,7 +63,7 @@ def main(args):
         return()
 
 
-def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine):
+def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid):
 
     # reading CSV file
     FpsData = read_csv(CSVPath)
@@ -104,9 +105,9 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
         ysize = 4
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine)
+    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid)
 
-def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine):
+def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid):
 
     # reading CSV file
     FpsData = read_csv(CSVPath)
@@ -142,7 +143,7 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
         DPI = 240
 
     if xsize == None:
-        xsize = 16
+        xsize = 12
 
     if ysize == None:
         ysize = 4
@@ -151,9 +152,9 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     ymax = 50
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine)
+    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid)
 
-def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine):
+def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid):
 
     # reading CSV file
     FpsData = read_csv(CSVPath, skiprows=2, usecols=[26], squeeze=True)
@@ -194,10 +195,10 @@ def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
         ysize = 4
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine)
+    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid)
 
 
-def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine):
+def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid):
 
     # reading CSV file
     FpsData = read_csv(CSVPath, skiprows=2, usecols=[0], squeeze=True)
@@ -237,12 +238,12 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
         ysize = 4
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine)
+    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid)
 
 
 
 
-def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine):
+def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid):
     # generate graph frames
     start = time()
     for i in range(VideoFrames):
@@ -272,6 +273,9 @@ def graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, y
         ax.spines['bottom'].set_color(BackColour)
         if centerLine == True:
             ax.axvline(x=PresetFrameRange/2, ymin=0, ymax=1, color=BackColour)
+
+        if grid == True:
+            ax.grid(b=None, which='major', axis='y')
 
         # save as png
         plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground, backend='Agg')
@@ -307,10 +311,11 @@ parser.add_argument('-lw', metavar='width', type=int, help='Set line width [defa
 parser.add_argument('-rb', metavar='bool', type=bool, help='Disable box around line [default: False]', default=False)
 parser.add_argument('-rl', metavar='bool', type=bool, help='Disable numbers around edge [default: False]', default=False)
 parser.add_argument('-cl', metavar='bool', type=bool, help='Add center line [default: False]', default=False)
+parser.add_argument('-g', metavar='bool', type=bool, help='Add grid [default: False]', default=False)
 parser.add_argument('-ymin', metavar='min', type=int, help='Set min y axis range [default: 0]', default=0)
 parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range [default: 120]', default=120)
-parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | X for FT]', default=None)
-parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 4 for FPS | X for FT]', default=None)
+parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | 12 for FT]', default=None)
+parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 4 for FPS | 4 for FT]', default=None)
 
 
 
