@@ -49,7 +49,7 @@ def main(args):
     
 
     if mode == "FPS":
-        if args.f == "NV":
+        if args.f == "FV":
             FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, )
         elif args.f == "MS":
             FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
@@ -58,7 +58,7 @@ def main(args):
         else:
             return(print("Make sure you have the right format set"))
     elif mode == "FT":
-        if args.f == "NV":
+        if args.f == "FV":
             FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
         elif args.f == "MS":
             FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
@@ -417,7 +417,9 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         gc.collect()
 
     print("Completed!")
-    print(f'Time taken: {int(time() - start)[0:5]}')
+    timeTaken = time() - start
+    timeTaken = str(timeTaken)
+    print(f'Time taken: {timeTaken[0:5]}')
 
 # setup argparse
 parser = argp.ArgumentParser(description='''Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).
