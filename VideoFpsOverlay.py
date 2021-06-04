@@ -14,6 +14,7 @@ def main(args):
 
     # settings
     CSVPath = args.CSV
+    mode = args.m
     Resolution = args.r
     PresetFrameRange = args.dr
     Title = args.t
@@ -27,7 +28,13 @@ def main(args):
     colour = args.lc
     BackColour = args.bc
     transparentBackground = args.tb
-    LineWidth = args.lw
+    if args.lw != None:
+        LineWidth = args.lw
+    else:
+        if mode == "FPS":
+            LineWidth = 1
+        elif mode == "FT":
+            LineWidth = 2
     RemoveBox = not args.rb
     RemoveNumbers = not args.rl
     ymin = args.ymin
@@ -38,7 +45,6 @@ def main(args):
     centerLine = args.cl
     grid = args.g
     FPSLocation = args.fl
-    mode = args.m
     ticks = args.ft
     
 
@@ -117,9 +123,11 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # grab all frame times
     FullFrameTimes = FpsData['MsBetweenPresents'].tolist()
     VideoFrames = len(FullFrameTimes)
+
+    del FpsData
     gc.collect()
     # add Frame Range -1 blank values at the start for the animation
-    for j in range(int(PresetFrameRange/2)):
+    for j in range(int(PresetFrameRange)):
         # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
         FullFrameTimes.insert(0, 0)
 
@@ -147,10 +155,106 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
         DPI = 240
 
     if xsize == None:
-        xsize = 12
+        xsize = 9
 
     if ysize == None:
-        ysize = 4
+        ysize = 3
+
+    if ymax == None:
+        ymax = 50
+
+    # run graph
+    graph(VideoFrames, PresetFrameRange, ax, FullFrameTimes, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
+
+def FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks):
+
+        # reading CSV file
+    FpsData = read_csv(CSVPath, skiprows=2, usecols=[27], squeeze=True)
+
+    # grab all frame times
+    FullFrameTimes = FpsData.tolist()
+    FullFrameTimes = FullFrameTimes[31:]
+    VideoFrames = len(FullFrameTimes)
+    
+    del FpsData
+    gc.collect()
+    # add Frame Range -1 blank values at the start for the animation
+    for j in range(int(PresetFrameRange)):
+        # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
+        FullFrameTimes.insert(0, 0)
+
+    # setup graph
+    fig, ax = plt.subplots()
+    Transparency = 1.0
+    if transparentBackground == True:
+        Transparency = 0.0
+
+
+    fig.patch.set_alpha(Transparency)
+
+
+    if Resolution == 720:
+        DPI = 45
+    elif Resolution == 1080:
+        DPI = 120
+    elif Resolution == 1440:
+        DPI = 160
+    elif Resolution == 2160:
+        DPI = 240
+
+    if xsize == None:
+        xsize = 9
+
+    if ysize == None:
+        ysize = 3
+
+    if ymax == None:
+        ymax = 50
+
+    # run graph
+    graph(VideoFrames, PresetFrameRange, ax, FullFrameTimes, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
+
+def FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks):
+
+       # reading CSV file
+    FpsData = read_csv(CSVPath, skiprows=2, usecols=[1], squeeze=True)
+
+    # grab all frame times
+    FullFrameTimesOd = FpsData.tolist()
+    VideoFrames = len(FullFrameTimesOd)
+    FullFrameTimes = [x/1000 for x in FullFrameTimesOd]
+
+    del FpsData
+    del FullFrameTimesOd
+    gc.collect()
+    # add blank values at the start for the animation
+    for j in range(int(PresetFrameRange)):
+        FullFrameTimes.insert(0, 0)
+
+    # setup graph
+    fig, ax = plt.subplots()
+    Transparency = 1.0
+    if transparentBackground == True:
+        Transparency = 0.0
+
+
+    fig.patch.set_alpha(Transparency)
+
+
+    if Resolution == 720:
+        DPI = 45
+    elif Resolution == 1080:
+        DPI = 120
+    elif Resolution == 1440:
+        DPI = 160
+    elif Resolution == 2160:
+        DPI = 240
+
+    if xsize == None:
+        xsize = 9
+
+    if ysize == None:
+        ysize = 3
 
     if ymax == None:
         ymax = 50
@@ -254,14 +358,14 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         if mode == "FPS":
             trimRange = PresetFrameRange+i
         elif mode == "FT":
-            trimRange = PresetFrameRange/2+i
+            trimRange = PresetFrameRange+i
         
 
         Xaxis = []
         if mode == "FPS":
             Xaxis = [t for t in range(PresetFrameRange)]
         elif mode == "FT":
-            Xaxis = [t for t in range(int(PresetFrameRange/2))]
+            Xaxis = [t for t in range(int(PresetFrameRange))]
         
 
         if mode == "FPS":
@@ -270,7 +374,7 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
             lines = ax.plot(Xaxis, Data[i:int(trimRange)], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
 
         ax.set_ylim(ymin, ymax)
-        ax.set_xlim(0, PresetFrameRange/2)
+        ax.set_xlim(0, PresetFrameRange)
         fig.dpi = DPI
         fig.set_size_inches(xsize, ysize)
         ax.set_title(Title, {'color': TextColour})
@@ -313,7 +417,7 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         gc.collect()
 
     print("Completed!")
-    print(f'Time taken: {time() - start}')
+    print(f'Time taken: {int(time() - start)[0:5]}')
 
 # setup argparse
 parser = argp.ArgumentParser(description='''Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).
@@ -331,15 +435,15 @@ parser.add_argument('-lc', metavar='Colour', type=str, help='Set the colour of t
 parser.add_argument('-bc', metavar='Colour', type=str, help='Set the colour of the axis and markers [format: matplotlib colors] [default: black]', default="black")
 parser.add_argument('-tc', metavar='Colour', type=str, help='Set the colour of the text [format: matplotlib colors] [default: black]', default="black")
 parser.add_argument('-tb', action='store_true', help='Set background of the graph to transparent')
-parser.add_argument('-lw', metavar='width', type=int, help='Set line width [default: 1]', default=1)
+parser.add_argument('-lw', metavar='width', type=int, help='Set line width [default: 1 for FPS | 4 for FT]', default=None)
 parser.add_argument('-rb', action='store_true', help='Disable box around line')
 parser.add_argument('-rl', action='store_true', help='Disable numbers around edge')
 parser.add_argument('-cl', action='store_true', help='Add center line')
 parser.add_argument('-g', action='store_true', help='Add grid')
 parser.add_argument('-ymin', metavar='min', type=int, help='Set min y axis range [default: 0]', default=None)
 parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range [default: FPS 120 | FT 50]', default=None)
-parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | 12 for FT]', default=None)
-parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 4 for FPS | 4 for FT]', default=None)
+parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | 9 for FT]', default=None)
+parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 16 for FPS | 3 for FT]', default=None)
 parser.add_argument('-fl', metavar='Location', type=str, help='Set the location of the FPS numbers (left, right, both) [Default: right]', default="right")
 parser.add_argument('-ft', metavar='amount', type=int, help='Set the ammount of FRAME TIME values to show (3 or 4) [Defaults: 4]', default=4)
 

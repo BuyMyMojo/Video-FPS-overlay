@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-f", "MS", "-m", "FPS", "D:/MSi-Benchmark/HardwareMonitoring.hml", "./test video 1/"],
+            "args": ["-f", "MS", "-m", "FPS", "F:/Documents/GitHub/Video-FPS-overlay/MSI-CSV/HardwareMonitoring.hml", "./test video 1/"],
             "console": "integratedTerminal"
         },
         {
@@ -33,7 +33,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-f", "MS", "-m", "FT", "-tb", "False", "D:/MSi-Benchmark/HardwareMonitoring.hml", "./test video 1/"],
+            "args": ["-f", "MS", "-m", "FT", "F:/Documents/GitHub/Video-FPS-overlay/MSI-CSV/HardwareMonitoring.hml", "./test video 1/"],
             "console": "integratedTerminal"
         },
         {
@@ -41,7 +41,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-f", "NV", "-m", "FT", "-tb", "F:/Documents/GitHub/Video-FPS-overlay/FrameView-CSV/FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv", "./test video 1/"],
+            "args": ["-f", "NV", "-m", "FT", "F:/Documents/GitHub/Video-FPS-overlay/FrameView-CSV/FrameView_Cyberpunk2077.exe_2021_05_31T190026_Log.csv", "./test video 1/"],
             "console": "integratedTerminal"
         },
         {
@@ -49,7 +49,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-f", "MH", "-m", "FT", "-tb", "False", "F:/Documents/GitHub/Video-FPS-overlay/mangohud-CSV/glxgears_2021-06-03_21-32-02.csv", "./test video 1/"],
+            "args": ["-f", "MH", "-m", "FT", "F:/Documents/GitHub/Video-FPS-overlay/mangohud-CSV/glxgears_2021-06-03_21-32-02.csv", "./test video 1/"],
             "console": "integratedTerminal"
         }
     ]
