@@ -32,6 +32,8 @@
 - PNG overlay export
 - Frame time to FPS conversion
 - Nvidia FrameView support
+- MangoHud support
+- MSI Afterburner support
 
 ### WIP
 
@@ -42,7 +44,7 @@
 
 | WIP Support | Nvidia FrameView  | MangoHud  | MSI Afterburner  |
 | ------------ | ------------ | ------------ | ------------ |
-| FPS | Y  | N  | Y  |
+| FPS | Y  | Y  | Y  |
 | Frame Time | N  |  N |  N |
 
 #### pip requirements
