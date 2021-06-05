@@ -51,8 +51,9 @@
 
 | WIP Support | Nvidia FrameView  | MangoHud  | MSI Afterburner  |
 | ------------ | ------------ | ------------ | ------------ |
-| FPS | Y  | Y  | Y  |
-| Frame Time | Y  |  Y |  Y |
+| FPS | Y  | N  | N  |
+| Frame Time | Y  |  N |  N |
+| Accurate Time | N  |  N | NY |
 
 #### pip requirements
 - pandas

@@ -10,66 +10,6 @@ from matplotlib import pyplot as plt
 from pandas import *
 import gc
 
-def main(args):
-
-    # settings
-    CSVPath = args.CSV
-    mode = args.m
-    Resolution = args.r
-    PresetFrameRange = args.dr
-    Title = args.t
-    if args.Output[-1] == "\\":
-        OutFolder = args.Output
-    elif args.Output[-1] == "/":
-        OutFolder = args.Output
-    else:
-        print("Make sure the output path ends in either a \\ or a /")
-        exit()
-    colour = args.lc
-    BackColour = args.bc
-    transparentBackground = args.tb
-    if args.lw != None:
-        LineWidth = args.lw
-    else:
-        if mode == "FPS":
-            LineWidth = 1
-        elif mode == "FT":
-            LineWidth = 2
-    RemoveBox = not args.rb
-    RemoveNumbers = not args.rl
-    ymin = args.ymin
-    ymax = args.ymax
-    TextColour = args.tc
-    xsize = args.xinch
-    ysize = args.yinch
-    centerLine = args.cl
-    grid = args.g
-    FPSLocation = args.fl
-    ticks = args.ft
-    
-
-    if mode == "FPS":
-        if args.f == "FV":
-            FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, )
-        elif args.f == "MS":
-            FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
-        elif args.f == "MH":
-            FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
-        else:
-            return(print("Make sure you have the right format set"))
-    elif mode == "FT":
-        if args.f == "FV":
-            FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
-        elif args.f == "MS":
-            FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
-        elif args.f == "MH":
-            FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
-        else:
-            return(print("Make sure you have the right format set"))
-    else:
-        print("Make sure you have mode set correctly")
-        return()
-
 
 def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode):
 
@@ -420,6 +360,74 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
     timeTaken = time() - start
     timeTaken = str(timeTaken)
     print(f'Time taken: {timeTaken[0:5]}')
+
+def WipError():
+    print("This feature has been put in WIP, check back in a future version")
+    exit()
+
+def main(args):
+
+    # settings
+    CSVPath = args.CSV
+    mode = args.m
+    Resolution = args.r
+    PresetFrameRange = args.dr
+    Title = args.t
+    if args.Output[-1] == "\\":
+        OutFolder = args.Output
+    elif args.Output[-1] == "/":
+        OutFolder = args.Output
+    else:
+        print("Make sure the output path ends in either a \\ or a /")
+        exit()
+    colour = args.lc
+    BackColour = args.bc
+    transparentBackground = args.tb
+    if args.lw != None:
+        LineWidth = args.lw
+    else:
+        if mode == "FPS":
+            LineWidth = 1
+        elif mode == "FT":
+            LineWidth = 2
+    RemoveBox = not args.rb
+    RemoveNumbers = not args.rl
+    ymin = args.ymin
+    ymax = args.ymax
+    TextColour = args.tc
+    xsize = args.xinch
+    ysize = args.yinch
+    centerLine = args.cl
+    grid = args.g
+    FPSLocation = args.fl
+    ticks = args.ft
+    
+
+    if mode == "FPS":
+        if args.f == "FV":
+            FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, )
+        elif args.f == "MS":
+            # FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
+            WipError()
+        elif args.f == "MH":
+            # FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
+            WipError()
+        else:
+            return(print("Make sure you have the right format set"))
+    elif mode == "FT":
+        if args.f == "FV":
+            FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
+        elif args.f == "MS":
+            # FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
+            WipError()
+        elif args.f == "MH":
+            # FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
+            WipError()
+        else:
+            return(print("Make sure you have the right format set"))
+    else:
+        print("Make sure you have mode set correctly")
+        return()
 
 # setup argparse
 parser = argp.ArgumentParser(description='''Generates image sequences from FPS/FrameTime information captured by FPS recording software (only Nvidia FrameView support right now).
