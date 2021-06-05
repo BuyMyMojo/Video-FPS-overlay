@@ -25,18 +25,6 @@ def FpsGraphFV(CSVPath, Title, PresetFrameRange, colour, BackColour, OutFolder, 
     VideoFrames = len(FullFrameTimes)
     TimeInSeconds = FpsData['TimeInSeconds'].tolist()
 
-    # for i in FpsData['TimeInSeconds'].tolist().count():
-    #     if i != 0:
-    #         x = FpsData['TimeInSeconds'].tolist()[i-1]
-    #     else:
-    #         x = FpsData['TimeInSeconds'].tolist()[i]
-    
-    # del FullFrameTimes
-    # add Frame Range -1 blank values at the start for the animation 
-    # for j in range(PresetFrameRange):
-    #     # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
-    #     FUllFrameRate.insert(0, 0)
-
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
@@ -106,9 +94,9 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.spines['right'].set_color(BackColour)
         ax.spines['top'].set_color(BackColour)
         ax.spines['bottom'].set_color(BackColour)
-        if centerLine == True:
+        if centerLine is True:
             ax.axvline(x=PresetFrameRange/2, ymin=0, ymax=1, color=BackColour)
-        if grid == True:
+        if grid is True:
             ax.grid(b=None, which='major', axis='y')
 
         # save as png
