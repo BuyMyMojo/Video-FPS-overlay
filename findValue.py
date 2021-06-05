@@ -1,5 +1,5 @@
 from os import times
-from pandas import *
+from pandas import read_csv
 import math
 
 Data = read_csv("FrameView-CSV\\FrameView_ds.exe_2021_06_04T224922_Log.csv")

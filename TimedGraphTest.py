@@ -1,7 +1,7 @@
 from time import time
 import matplotlib.pyplot as plt
 from matplotlib import animation
-from pandas import *
+from pandas import read_csv
 from datetime import datetime
 
 con = 0
