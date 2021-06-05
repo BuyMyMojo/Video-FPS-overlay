@@ -10,7 +10,7 @@ SetRange = float(2) #range in seconds
 EndRange = None
 for j in range(1700):
     
-    for i in range(len(Times)):
+    for i in enumerate(Times):
         
         Math = float(Times[i])-float(Times[j])
         outMath = math.trunc(Math)

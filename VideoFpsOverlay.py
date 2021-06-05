@@ -303,7 +303,7 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         trimRange = PresetFrameRange
         EndRange = None
     
-        for j in range(len(Times)):
+        for j in enumerate(Times):
         
             Math = float(Times[j])-float(Times[i])
             outMath = math.trunc(Math)
