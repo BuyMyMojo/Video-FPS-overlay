@@ -1,7 +1,7 @@
 # Video FPS overlay
  Create FPS graph overlays like TRDrop and Digital Foundry using FrameView, Mangohud and MSI Afterburner
 
-    [![CodeFactor](https://www.codefactor.io/repository/github/buymymojo/video-fps-overlay/badge/timing-fix)](https://www.codefactor.io/repository/github/buymymojo/video-fps-overlay/overview/timing-fix)
+[![CodeFactor](https://www.codefactor.io/repository/github/buymymojo/video-fps-overlay/badge/timing-fix)](https://www.codefactor.io/repository/github/buymymojo/video-fps-overlay/overview/timing-fix)
 
 
 
