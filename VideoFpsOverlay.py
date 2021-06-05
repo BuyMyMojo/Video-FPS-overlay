@@ -284,10 +284,10 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     elif Resolution == 2160:
         DPI = 240
 
-    if xsize == None:
+    if xsize is None:
         xsize = 16
 
-    if ysize == None:
+    if ysize is None:
         ysize = 4
 
     # run graph
@@ -399,7 +399,7 @@ def main(args):
     colour = args.lc
     BackColour = args.bc
     transparentBackground = args.tb
-    if args.lw != None:
+    if args.lw is not None:
         LineWidth = args.lw
     else:
         if mode == "FPS":
