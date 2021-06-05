@@ -7,7 +7,7 @@ import sys
 from time import time
 import matplotlib 
 from matplotlib import pyplot as plt
-from pandas import *
+from pandas import read_csv
 import gc
 import math
 
@@ -34,7 +34,7 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground == True:
+    if transparentBackground is True:
         Transparency = 0.0
 
 
@@ -50,10 +50,10 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     elif Resolution == 2160:
         DPI = 240
 
-    if xsize == None:
+    if xsize is None:
         xsize = 16
 
-    if ysize == None:
+    if ysize is None:
         ysize = 4
 
     # run graph
@@ -83,7 +83,7 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground == True:
+    if transparentBackground is True:
         Transparency = 0.0
 
 
@@ -99,13 +99,13 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     elif Resolution == 2160:
         DPI = 240
 
-    if xsize == None:
+    if xsize is None:
         xsize = 9
 
-    if ysize == None:
+    if ysize is None:
         ysize = 3
 
-    if ymax == None:
+    if ymax is None:
         ymax = 50
 
     # run graph
@@ -131,7 +131,7 @@ def FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground == True:
+    if transparentBackground is True:
         Transparency = 0.0
 
 
@@ -147,13 +147,13 @@ def FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     elif Resolution == 2160:
         DPI = 240
 
-    if xsize == None:
+    if xsize is None:
         xsize = 9
 
-    if ysize == None:
+    if ysize is None:
         ysize = 3
 
-    if ymax == None:
+    if ymax is None:
         ymax = 50
 
     # run graph
@@ -179,7 +179,7 @@ def FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground == True:
+    if transparentBackground is True:
         Transparency = 0.0
 
 
@@ -195,13 +195,13 @@ def FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     elif Resolution == 2160:
         DPI = 240
 
-    if xsize == None:
+    if xsize is None:
         xsize = 9
 
-    if ysize == None:
+    if ysize is None:
         ysize = 3
 
-    if ymax == None:
+    if ymax is None:
         ymax = 50
 
     # run graph
@@ -225,7 +225,7 @@ def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground == True:
+    if transparentBackground is True:
         Transparency = 0.0
 
 
@@ -241,10 +241,10 @@ def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     elif Resolution == 2160:
         DPI = 240
 
-    if xsize == None:
+    if xsize is None:
         xsize = 16
 
-    if ysize == None:
+    if ysize is None:
         ysize = 4
 
     # run graph
@@ -268,7 +268,7 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground == True:
+    if transparentBackground is True:
         Transparency = 0.0
 
 
@@ -354,9 +354,9 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.spines['right'].set_color(BackColour)
         ax.spines['top'].set_color(BackColour)
         ax.spines['bottom'].set_color(BackColour)
-        if centerLine == True:
+        if centerLine is True:
             ax.axvline(x=FindMiddle(Times, i, EndRange), ymin=0, ymax=1, color=BackColour)
-        if grid == True:
+        if grid is True:
             ax.grid(b=None, which='major', axis='y')
 
         # save as png
