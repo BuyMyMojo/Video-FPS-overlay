@@ -460,5 +460,5 @@ parser.add_argument('-ft', metavar='amount', type=int, help='Set the ammount of 
 
 args = parser.parse_args()
 
-if len(sys.argv) != 1:
-    main(args)
+
+main(args)
