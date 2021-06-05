@@ -9,6 +9,7 @@ import matplotlib
 from matplotlib import pyplot as plt
 from pandas import *
 import gc
+import math
 
 
 def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode):
@@ -18,6 +19,7 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
 
     # grab all frame times
     FullFrameTimes = FpsData['MsBetweenPresents'].tolist()
+    Times = FpsData['TimeInSeconds'].tolist()
     FUllFrameRate = [1000/x if x > 0 else x == 0 for x in FullFrameTimes]
     VideoFrames = len(FullFrameTimes)
     del FullFrameTimes
@@ -53,7 +55,7 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
         ysize = 4
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode)
+    graph(VideoFrames, PresetFrameRange, ax, FUllFrameRate, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, Times)
 
 def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks):
 
@@ -291,25 +293,34 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
 
 
 
-def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks=4):
+def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, Times, ticks=4):
     # generate graph frames
     start = time()
     for i in range(VideoFrames):
-        if mode == "FPS":
-            trimRange = PresetFrameRange+i
-        elif mode == "FT":
-            trimRange = PresetFrameRange+i
+        trimRange = PresetFrameRange
+        EndRange = None
+    
+        for j in range(len(Times)):
+        
+            Math = float(Times[j])-float(Times[i])
+            outMath = math.trunc(Math)
+            if outMath == PresetFrameRange:
+                EndRange = j
+                break
+
+        print("Range for time = ["+ str(i) +":"+ str(EndRange) +"]")
+   
         
 
         Xaxis = []
         if mode == "FPS":
-            Xaxis = [t for t in range(PresetFrameRange)]
+            Xaxis = Times[i:EndRange]
         elif mode == "FT":
             Xaxis = [t for t in range(int(PresetFrameRange))]
         
 
         if mode == "FPS":
-            lines = ax.plot(Xaxis, Data[i:trimRange], color=colour, linewidth=LineWidth)
+            lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth)
         elif mode == "FT":
             lines = ax.plot(Xaxis, Data[i:int(trimRange)], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
 
@@ -440,7 +451,7 @@ parser.add_argument('-m', metavar='Mode', type=str, help='Choose what weather to
 parser.add_argument('Output', metavar='Output', type=str, help='The path your image sequence will be saved')
 parser.add_argument('-r', metavar='Resolution', type=int, help='Resolution of recording [720, 1080, 1440, 2160] [default: 1080]', default=1080)
 parser.add_argument('-t', metavar='Title', type=str, help='Set the title of the graph', default=" ")
-parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in data points (example: 90 will have the graph show 90 data values at once) [default : 120]', default=120)
+parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in seconds [default : 2]', default=2)
 parser.add_argument('-lc', metavar='Colour', type=str, help='Set the colour of the line [format: matplotlib colors] [default: red]', default="r")
 parser.add_argument('-bc', metavar='Colour', type=str, help='Set the colour of the axis and markers [format: matplotlib colors] [default: black]', default="black")
 parser.add_argument('-tc', metavar='Colour', type=str, help='Set the colour of the text [format: matplotlib colors] [default: black]', default="black")
