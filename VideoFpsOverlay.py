@@ -7,7 +7,7 @@ import sys
 from time import time
 import matplotlib 
 from matplotlib import pyplot as plt
-from pandas import read_csv
+from pandas import *
 import gc
 import math
 
@@ -20,7 +20,7 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # grab all frame times
     FullFrameTimes = FpsData['MsBetweenPresents'].tolist()
     Times = FpsData['TimeInSeconds'].tolist()
-    FUllFrameRate = [1000/x if x > 0 else x is 0 for x in FullFrameTimes]
+    FUllFrameRate = [1000/x if x > 0 else x == 0 for x in FullFrameTimes]
     VideoFrames = len(FullFrameTimes)
     del FullFrameTimes
     gc.collect()
@@ -34,26 +34,26 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground is True:
+    if transparentBackground == True:
         Transparency = 0.0
 
 
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution is 720:
+    if Resolution == 720:
         DPI = 45
-    elif Resolution is 1080:
+    elif Resolution == 1080:
         DPI = 120
-    elif Resolution is 1440:
+    elif Resolution == 1440:
         DPI = 160
-    elif Resolution is 2160:
+    elif Resolution == 2160:
         DPI = 240
 
-    if xsize is None:
+    if xsize == None:
         xsize = 16
 
-    if ysize is None:
+    if ysize == None:
         ysize = 4
 
     # run graph
@@ -83,29 +83,29 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground is True:
+    if transparentBackground == True:
         Transparency = 0.0
 
 
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution is 720:
+    if Resolution == 720:
         DPI = 45
-    elif Resolution is 1080:
+    elif Resolution == 1080:
         DPI = 120
-    elif Resolution is 1440:
+    elif Resolution == 1440:
         DPI = 160
-    elif Resolution is 2160:
+    elif Resolution == 2160:
         DPI = 240
 
-    if xsize is None:
+    if xsize == None:
         xsize = 9
 
-    if ysize is None:
+    if ysize == None:
         ysize = 3
 
-    if ymax is None:
+    if ymax == None:
         ymax = 50
 
     # run graph
@@ -131,29 +131,29 @@ def FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground is True:
+    if transparentBackground == True:
         Transparency = 0.0
 
 
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution is 720:
+    if Resolution == 720:
         DPI = 45
-    elif Resolution is 1080:
+    elif Resolution == 1080:
         DPI = 120
-    elif Resolution is 1440:
+    elif Resolution == 1440:
         DPI = 160
-    elif Resolution is 2160:
+    elif Resolution == 2160:
         DPI = 240
 
-    if xsize is None:
+    if xsize == None:
         xsize = 9
 
-    if ysize is None:
+    if ysize == None:
         ysize = 3
 
-    if ymax is None:
+    if ymax == None:
         ymax = 50
 
     # run graph
@@ -179,29 +179,29 @@ def FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground is True:
+    if transparentBackground == True:
         Transparency = 0.0
 
 
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution is 720:
+    if Resolution == 720:
         DPI = 45
-    elif Resolution is 1080:
+    elif Resolution == 1080:
         DPI = 120
-    elif Resolution is 1440:
+    elif Resolution == 1440:
         DPI = 160
-    elif Resolution is 2160:
+    elif Resolution == 2160:
         DPI = 240
 
-    if xsize is None:
+    if xsize == None:
         xsize = 9
 
-    if ysize is None:
+    if ysize == None:
         ysize = 3
 
-    if ymax is None:
+    if ymax == None:
         ymax = 50
 
     # run graph
@@ -225,26 +225,26 @@ def FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground is True:
+    if transparentBackground == True:
         Transparency = 0.0
 
 
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution is 720:
+    if Resolution == 720:
         DPI = 45
-    elif Resolution is 1080:
+    elif Resolution == 1080:
         DPI = 120
-    elif Resolution is 1440:
+    elif Resolution == 1440:
         DPI = 160
-    elif Resolution is 2160:
+    elif Resolution == 2160:
         DPI = 240
 
-    if xsize is None:
+    if xsize == None:
         xsize = 16
 
-    if ysize is None:
+    if ysize == None:
         ysize = 4
 
     # run graph
@@ -268,26 +268,26 @@ def FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     # setup graph
     fig, ax = plt.subplots()
     Transparency = 1.0
-    if transparentBackground is True:
+    if transparentBackground == True:
         Transparency = 0.0
 
 
     fig.patch.set_alpha(Transparency)
 
 
-    if Resolution is 720:
+    if Resolution == 720:
         DPI = 45
-    elif Resolution is 1080:
+    elif Resolution == 1080:
         DPI = 120
-    elif Resolution is 1440:
+    elif Resolution == 1440:
         DPI = 160
-    elif Resolution is 2160:
+    elif Resolution == 2160:
         DPI = 240
 
-    if xsize is None:
+    if xsize == None:
         xsize = 16
 
-    if ysize is None:
+    if ysize == None:
         ysize = 4
 
     # run graph
@@ -307,7 +307,7 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         
             Math = float(Times[j])-float(Times[i])
             outMath = math.trunc(Math)
-            if outMath is PresetFrameRange:
+            if outMath == PresetFrameRange:
                 EndRange = j
                 break
 
@@ -316,15 +316,15 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         
 
         Xaxis = []
-        if mode is "FPS":
+        if mode == "FPS":
             Xaxis = Times[i:EndRange]
-        elif mode is "FT":
+        elif mode == "FT":
             Xaxis = Times[i:EndRange]
         
 
-        if mode is "FPS":
+        if mode == "FPS":
             lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth)
-        elif mode is "FT":
+        elif mode == "FT":
             lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
 
         ax.set_ylim(ymin, ymax)
@@ -335,16 +335,16 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.xaxis.label.set_color(TextColour)
         ax.yaxis.label.set_color(TextColour)
         ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
-        if mode is "FT":
-            if ticks is 3:
+        if mode == "FT":
+            if ticks == 3:
                 plt.yticks([0, ymax/2, ymax])
-            elif ticks is 4:
+            elif ticks == 4:
                 plt.yticks([0, ymax/3, ymax/3*2, ymax])
-        if FPSLocation is "left":
+        if FPSLocation == "left":
             ax.tick_params(axis='y', labelleft=True, labelright=False)
-        elif FPSLocation is "right":
+        elif FPSLocation == "right":
             ax.tick_params(axis='y', labelleft=False, labelright=True)
-        elif FPSLocation is "both":
+        elif FPSLocation == "both":
             ax.tick_params(axis='y', labelleft=True, labelright=True)
         ax.spines['left'].set_visible(RemoveBox)
         ax.spines['right'].set_visible(RemoveBox)
@@ -354,9 +354,9 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.spines['right'].set_color(BackColour)
         ax.spines['top'].set_color(BackColour)
         ax.spines['bottom'].set_color(BackColour)
-        if centerLine is True:
+        if centerLine == True:
             ax.axvline(x=FindMiddle(Times, i, EndRange), ymin=0, ymax=1, color=BackColour)
-        if grid is True:
+        if grid == True:
             ax.grid(b=None, which='major', axis='y')
 
         # save as png
@@ -389,9 +389,9 @@ def main(args):
     Resolution = args.r
     PresetFrameRange = args.dr
     Title = args.t
-    if args.Output[-1] is "\\":
+    if args.Output[-1] == "\\":
         OutFolder = args.Output
-    elif args.Output[-1] is "/":
+    elif args.Output[-1] == "/":
         OutFolder = args.Output
     else:
         print("Make sure the output path ends in either a \\ or a /")
@@ -399,12 +399,12 @@ def main(args):
     colour = args.lc
     BackColour = args.bc
     transparentBackground = args.tb
-    if args.lw is not None:
+    if args.lw != None:
         LineWidth = args.lw
     else:
-        if mode is "FPS":
+        if mode == "FPS":
             LineWidth = 1
-        elif mode is "FT":
+        elif mode == "FT":
             LineWidth = 2
     RemoveBox = not args.rb
     RemoveNumbers = not args.rl
@@ -419,24 +419,24 @@ def main(args):
     ticks = args.ft
     
 
-    if mode is "FPS":
-        if args.f is "FV":
+    if mode == "FPS":
+        if args.f == "FV":
             FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, )
-        elif args.f is "MS":
+        elif args.f == "MS":
             # FpsGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
             WipError()
-        elif args.f is "MH":
+        elif args.f == "MH":
             # FpsGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, ymin, ymax, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode)
             WipError()
         else:
             return(print("Make sure you have the right format set"))
-    elif mode is "FT":
-        if args.f is "FV":
+    elif mode == "FT":
+        if args.f == "FV":
             FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
-        elif args.f is "MS":
+        elif args.f == "MS":
             # FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
             WipError()
-        elif args.f is "MH":
+        elif args.f == "MH":
             # FTGraphMH(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
             WipError()
         else:
