@@ -25,9 +25,11 @@ def FpsGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRan
     del FullFrameTimes
     gc.collect()
     # add Frame Range -1 blank values at the start for the animation
-    for j in range(PresetFrameRange):
-        # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
-        FUllFrameRate.insert(0, 0)
+    # for j in range(PresetFrameRange):
+    #     # FullFrameTimes.insert(0, 0) # to add back in later when implamenting frametime graph
+    #     FUllFrameRate.insert(0, 0)
+    #     Times.insert(0, int(Times[0])-4)
+
 
     # setup graph
     fig, ax = plt.subplots()
@@ -64,6 +66,7 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
 
     # grab all frame times
     FullFrameTimes = FpsData['MsBetweenPresents'].tolist()
+    Times = FpsData['TimeInSeconds'].tolist()
     VideoFrames = len(FullFrameTimes)
 
     del FpsData
@@ -106,7 +109,7 @@ def FTGraphFV(CSVPath, transparentBackground, Resolution, Title, PresetFrameRang
         ymax = 50
 
     # run graph
-    graph(VideoFrames, PresetFrameRange, ax, FullFrameTimes, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks)
+    graph(VideoFrames, PresetFrameRange, ax, FullFrameTimes, colour, LineWidth, ymin, ymax, fig, DPI, Title, TextColour, BackColour, RemoveBox, RemoveNumbers, OutFolder, transparentBackground, xsize, ysize, centerLine, grid, FPSLocation, mode, Times, ticks)
 
 def FTGraphMS(CSVPath, transparentBackground, Resolution, Title, PresetFrameRange, ymin, ymax, colour, BackColour, OutFolder, LineWidth, RemoveBox, RemoveNumbers, TextColour, xsize, ysize, centerLine, grid, FPSLocation, mode, ticks):
 
@@ -316,16 +319,16 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         if mode == "FPS":
             Xaxis = Times[i:EndRange]
         elif mode == "FT":
-            Xaxis = [t for t in range(int(PresetFrameRange))]
+            Xaxis = Times[i:EndRange]
         
 
         if mode == "FPS":
             lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth)
         elif mode == "FT":
-            lines = ax.plot(Xaxis, Data[i:int(trimRange)], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
+            lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
 
         ax.set_ylim(ymin, ymax)
-        ax.set_xlim(0, PresetFrameRange)
+        ax.set_xlim(Times[i], Times[EndRange])
         fig.dpi = DPI
         fig.set_size_inches(xsize, ysize)
         ax.set_title(Title, {'color': TextColour})
@@ -352,7 +355,7 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.spines['top'].set_color(BackColour)
         ax.spines['bottom'].set_color(BackColour)
         if centerLine == True:
-            ax.axvline(x=PresetFrameRange/2, ymin=0, ymax=1, color=BackColour)
+            ax.axvline(x=FindMiddle(Times, i, EndRange), ymin=0, ymax=1, color=BackColour)
         if grid == True:
             ax.grid(b=None, which='major', axis='y')
 
@@ -362,15 +365,17 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
 
         print('Processed frame ' + str(i+1) + ' of ' + str(VideoFrames) + " " + str((i+1)*100/VideoFrames)[0:5] + "%" + ' FPS graph')
 
-        del trimRange
-        del Xaxis
-        del lines
-        gc.collect()
-
     print("Completed!")
     timeTaken = time() - start
     timeTaken = str(timeTaken)
     print(f'Time taken: {timeTaken[0:5]}')
+
+def FindMiddle(Times, i, EndRange):
+    ttte = Times[i:EndRange]
+    tttl = len(ttte)
+
+    sss = sum(Times[i:EndRange])
+    return(int(int(sss)/int(tttl)))
 
 def WipError():
     print("This feature has been put in WIP, check back in a future version")
@@ -451,7 +456,7 @@ parser.add_argument('-m', metavar='Mode', type=str, help='Choose what weather to
 parser.add_argument('Output', metavar='Output', type=str, help='The path your image sequence will be saved')
 parser.add_argument('-r', metavar='Resolution', type=int, help='Resolution of recording [720, 1080, 1440, 2160] [default: 1080]', default=1080)
 parser.add_argument('-t', metavar='Title', type=str, help='Set the title of the graph', default=" ")
-parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in seconds [default : 2]', default=2)
+parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in seconds [default: FPS 4 | FT 2]', default=4)
 parser.add_argument('-lc', metavar='Colour', type=str, help='Set the colour of the line [format: matplotlib colors] [default: red]', default="r")
 parser.add_argument('-bc', metavar='Colour', type=str, help='Set the colour of the axis and markers [format: matplotlib colors] [default: black]', default="black")
 parser.add_argument('-tc', metavar='Colour', type=str, help='Set the colour of the text [format: matplotlib colors] [default: black]', default="black")
@@ -461,8 +466,8 @@ parser.add_argument('-rb', action='store_true', help='Disable box around line')
 parser.add_argument('-rl', action='store_true', help='Disable numbers around edge')
 parser.add_argument('-cl', action='store_true', help='Add center line')
 parser.add_argument('-g', action='store_true', help='Add grid')
-parser.add_argument('-ymin', metavar='min', type=int, help='Set min y axis range [default: 0]', default=None)
-parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range [default: FPS 120 | FT 50]', default=None)
+parser.add_argument('-ymin', metavar='min', type=int, help='Set min y axis range [default: 0]', default=0)
+parser.add_argument('-ymax', metavar='max', type=int, help='Set max y axis range [default: FPS 120 | FT 50]', default=250)
 parser.add_argument('-xinch', metavar='size', type=int, help='Set the width of the graph. This affects output resolution [Defaults: 16 for FPS | 9 for FT]', default=None)
 parser.add_argument('-yinch', metavar='size', type=int, help='Set the height of the graph. This affects output resolution [Defaults: 16 for FPS | 3 for FT]', default=None)
 parser.add_argument('-fl', metavar='Location', type=str, help='Set the location of the FPS numbers (left, right, both) [Default: right]', default="right")

@@ -53,7 +53,7 @@
 | ------------ | ------------ | ------------ | ------------ |
 | FPS | Y  | N  | N  |
 | Frame Time | Y  |  N |  N |
-| Accurate Time | N  |  N | NY |
+| Accurate Time | ?  |  N | N |
 
 #### pip requirements
 - pandas
