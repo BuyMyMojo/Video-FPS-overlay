@@ -301,40 +301,41 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
     start = time()
     for i in range(VideoFrames):
         trimRange = PresetFrameRange
-        EndRange = None
+        # EndRange = None
     
-        for j in enumerate(Times):
+        # for j in range(len(Times)):
         
-            Math = float(Times[j])-float(Times[i])
-            outMath = math.trunc(Math)
-            if outMath == PresetFrameRange:
-                EndRange = j
-                break
+        #     Math = int(Times[j])-int(Times[i])
+        #     outMath = math.trunc(Math)
+        #     if outMath == PresetFrameRange:
+        #         EndRange = j
+        #         break
 
-        print("Range for time = ["+ str(i) +":"+ str(EndRange) +"]")
+        print("Range for time = ["+ str(i) +":"+ str(trimRange+i) +"]")
    
         
 
         Xaxis = []
         if mode == "FPS":
-            Xaxis = Times[i:EndRange]
+            Xaxis = Times[i:trimRange+i]
         elif mode == "FT":
-            Xaxis = Times[i:EndRange]
+            Xaxis = Times[i:trimRange+i]
         
 
         if mode == "FPS":
-            lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth)
+            lines = ax.plot(Xaxis, Data[i:trimRange+i], color=colour, linewidth=LineWidth)
         elif mode == "FT":
-            lines = ax.plot(Xaxis, Data[i:EndRange], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
+            lines = ax.plot(Xaxis, Data[i:trimRange+i], color=colour, linewidth=LineWidth, drawstyle='steps-pre')
 
+        
         ax.set_ylim(ymin, ymax)
-        ax.set_xlim(Times[i], Times[EndRange])
+        ax.set_xlim(Times[i], Times[trimRange+i])
         fig.dpi = DPI
         fig.set_size_inches(xsize, ysize)
         ax.set_title(Title, {'color': TextColour})
         ax.xaxis.label.set_color(TextColour)
         ax.yaxis.label.set_color(TextColour)
-        ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=RemoveNumbers)
+        ax.tick_params(axis='both', colors=BackColour, bottom=RemoveBox, top=RemoveBox, left=RemoveBox, right=RemoveBox, labelleft=RemoveNumbers, labelbottom=False)
         if mode == "FT":
             if ticks == 3:
                 plt.yticks([0, ymax/2, ymax])
@@ -355,11 +356,12 @@ def graph(VideoFrames, PresetFrameRange, ax, Data, colour, LineWidth, ymin, ymax
         ax.spines['top'].set_color(BackColour)
         ax.spines['bottom'].set_color(BackColour)
         if centerLine is True:
-            ax.axvline(x=FindMiddle(Times, i, EndRange), ymin=0, ymax=1, color=BackColour)
+            ax.axvline(x=FindMiddle(Times, i, trimRange+i), ymin=0, ymax=1, color=BackColour)
         if grid is True:
             ax.grid(b=None, which='major', axis='y')
 
         # save as png
+        plt.xticks(Times[i:trimRange+i])
         plt.savefig(OutFolder + "Frame_" + str(i+1) + '.png', transparent=transparentBackground, backend='Agg')
         ax.cla()
 
@@ -454,12 +456,12 @@ parser.add_argument('CSV', metavar='CSV', type=str, help='The path to your CSV f
 parser.add_argument('-f', metavar='Format', type=str, help='Choose what format the csv is in [FV = FrameView, MS = MSI afterburner, MH = MangoHud] [default: FrameView]', default="FV")
 parser.add_argument('-m', metavar='Mode', type=str, help='Choose what weather to render FPS or FrameTime graph [FPS = FPS, FT = FrameTime] [default: FPS]', default="FPS")
 parser.add_argument('Output', metavar='Output', type=str, help='The path your image sequence will be saved')
-parser.add_argument('-r', metavar='Resolution', type=int, help='Resolution of recording [720, 1080, 1440, 2160] [default: 1080]', default=1080)
+parser.add_argument('-r', metavar='Resolution', type=int, help='Resolution of recording [720, 1080, 1440, 2160] [default: 1080]', default=1440)
 parser.add_argument('-t', metavar='Title', type=str, help='Set the title of the graph', default=" ")
-parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in seconds [default: FPS 4 | FT 2]', default=4)
+parser.add_argument('-dr', metavar='Range', type=int, help='Sets the X length of the graph in seconds [default: FPS 120 | FT 60]', default=120)
 parser.add_argument('-lc', metavar='Colour', type=str, help='Set the colour of the line [format: matplotlib colors] [default: red]', default="r")
-parser.add_argument('-bc', metavar='Colour', type=str, help='Set the colour of the axis and markers [format: matplotlib colors] [default: black]', default="black")
-parser.add_argument('-tc', metavar='Colour', type=str, help='Set the colour of the text [format: matplotlib colors] [default: black]', default="black")
+parser.add_argument('-bc', metavar='Colour', type=str, help='Set the colour of the axis and markers [format: matplotlib colors] [default: black]', default="white")
+parser.add_argument('-tc', metavar='Colour', type=str, help='Set the colour of the text [format: matplotlib colors] [default: black]', default="white")
 parser.add_argument('-tb', action='store_true', help='Set background of the graph to transparent')
 parser.add_argument('-lw', metavar='width', type=int, help='Set line width [default: 1 for FPS | 4 for FT]', default=None)
 parser.add_argument('-rb', action='store_true', help='Disable box around line')
