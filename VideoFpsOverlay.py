@@ -307,31 +307,15 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
     start = time()
     for i in range(video_frames):
         trimrange = preset_frame_range
-        # end_range = None
-
-        # for j in range(len(times)):
-
-        #     Math = int(times[j])-int(times[i])
-        #     outMath = math.trunc(Math)
-        #     if outMath == preset_frame_range:
-        #         end_range = j
-        #         break
 
         print("Range for time = [" + str(i) + ":" + str(trimrange + i) + "]")
 
         xaxis = []
-        if mode == "FPS":
-            xaxis = times[i:trimrange + i]
-        elif mode == "FT":
-            xaxis = times[i:trimrange + i]
+        xaxis = xaxis_times(i, mode, times, trimrange, xaxis)
 
-        if mode == "FPS":
-            lines = ax.plot(xaxis, data[i:trimrange + i], color=colour, linewidth=line_width)
-        elif mode == "FT":
-            lines = ax.plot(xaxis, data[i:trimrange + i], color=colour, linewidth=line_width, drawstyle='steps-pre')
+        plot_mode(ax, colour, data, i, line_width, mode, trimrange, xaxis)
 
-        ax.set_ylim(ymin, ymax)
-        ax.set_xlim(times[i], times[trimrange + i])
+        axis_limits(ax, i, times, trimrange, ymax, ymin)
         fig.dpi = dpi
         fig.set_size_inches(xsize, ysize)
         ax.set_title(title, {'color': text_colour})
@@ -339,25 +323,10 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
         ax.yaxis.label.set_color(text_colour)
         ax.tick_params(axis='both', colors=back_colour, bottom=remove_box, top=remove_box, left=remove_box,
                        right=remove_box, labelleft=remove_numbers, labelbottom=False)
-        if mode == "FT":
-            if ticks == 3:
-                plt.yticks([0, ymax / 2, ymax])
-            elif ticks == 4:
-                plt.yticks([0, ymax / 3, ymax / 3 * 2, ymax])
-        if fps_location == "left":
-            ax.tick_params(axis='y', labelleft=True, labelright=False)
-        elif fps_location == "right":
-            ax.tick_params(axis='y', labelleft=False, labelright=True)
-        elif fps_location == "both":
-            ax.tick_params(axis='y', labelleft=True, labelright=True)
-        ax.spines['left'].set_visible(remove_box)
-        ax.spines['right'].set_visible(remove_box)
-        ax.spines['bottom'].set_visible(remove_box)
-        ax.spines['top'].set_visible(remove_box)
-        ax.spines['left'].set_color(back_colour)
-        ax.spines['right'].set_color(back_colour)
-        ax.spines['top'].set_color(back_colour)
-        ax.spines['bottom'].set_color(back_colour)
+        set_yticks(mode, ticks, ymax)
+        set_fps_location(ax, fps_location)
+        set_visible(ax, remove_box)
+        set_color(ax, back_colour)
         if center_line is True:
             ax.axvline(x=find_middle(times, i, trimrange + i), ymin=0, ymax=1, color=back_colour)
         if grid is True:
@@ -365,16 +334,75 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
 
         # save as png
         plt.xticks(times[i:trimrange + i])
-        plt.savefig(out_folder + "Frame_" + str(i + 1) + '.png', transparent=transparent_background, backend='Agg')
-        ax.cla()
+        save_graph(ax, i, out_folder, transparent_background)
 
         print('Processed frame ' + str(i + 1) + ' of ' + str(video_frames) + " " + str((i + 1) * 100 / video_frames)[
                                                                                    0:5] + "%" + ' FPS graph')
 
+    complete_graph(start)
+
+
+def save_graph(ax, i, out_folder, transparent_background):
+    plt.savefig(out_folder + "Frame_" + str(i + 1) + '.png', transparent=transparent_background, backend='Agg')
+    ax.cla()
+
+
+def complete_graph(start):
     print("Completed!")
     time_taken = time() - start
     time_taken = str(time_taken)
     print(f'Time taken: {time_taken[0:5]}')
+
+
+def xaxis_times(i, mode, times, trimrange, xaxis):
+    if mode == "FPS":
+        xaxis = times[i:trimrange + i]
+    elif mode == "FT":
+        xaxis = times[i:trimrange + i]
+    return xaxis
+
+
+def plot_mode(ax, colour, data, i, line_width, mode, trimrange, xaxis):
+    if mode == "FPS":
+        lines = ax.plot(xaxis, data[i:trimrange + i], color=colour, linewidth=line_width)
+    elif mode == "FT":
+        lines = ax.plot(xaxis, data[i:trimrange + i], color=colour, linewidth=line_width, drawstyle='steps-pre')
+
+
+def axis_limits(ax, i, times, trimrange, ymax, ymin):
+    ax.set_ylim(ymin, ymax)
+    ax.set_xlim(times[i], times[trimrange + i])
+
+
+def set_color(ax, back_colour):
+    ax.spines['left'].set_color(back_colour)
+    ax.spines['right'].set_color(back_colour)
+    ax.spines['top'].set_color(back_colour)
+    ax.spines['bottom'].set_color(back_colour)
+
+
+def set_visible(ax, remove_box):
+    ax.spines['left'].set_visible(remove_box)
+    ax.spines['right'].set_visible(remove_box)
+    ax.spines['bottom'].set_visible(remove_box)
+    ax.spines['top'].set_visible(remove_box)
+
+
+def set_fps_location(ax, fps_location):
+    if fps_location == "left":
+        ax.tick_params(axis='y', labelleft=True, labelright=False)
+    elif fps_location == "right":
+        ax.tick_params(axis='y', labelleft=False, labelright=True)
+    elif fps_location == "both":
+        ax.tick_params(axis='y', labelleft=True, labelright=True)
+
+
+def set_yticks(mode, ticks, ymax):
+    if mode == "FT":
+        if ticks == 3:
+            plt.yticks([0, ymax / 2, ymax])
+        elif ticks == 4:
+            plt.yticks([0, ymax / 3, ymax / 3 * 2, ymax])
 
 
 def find_middle(times, i, end_range):
