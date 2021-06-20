@@ -13,3 +13,5 @@ test video/*
 test video 1/*
 .vscode/settings.json
 *.png
+/.vs/ProjectSettings.json
+/.vs
