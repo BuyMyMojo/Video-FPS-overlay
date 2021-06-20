@@ -318,9 +318,7 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
         axis_limits(ax, i, times, trimrange, ymax, ymin)
         fig.dpi = dpi
         fig.set_size_inches(xsize, ysize)
-        ax.set_title(title, {'color': text_colour})
-        ax.xaxis.label.set_color(text_colour)
-        ax.yaxis.label.set_color(text_colour)
+        graph_text(ax, text_colour, title)
         ax.tick_params(axis='both', colors=back_colour, bottom=remove_box, top=remove_box, left=remove_box,
                        right=remove_box, labelleft=remove_numbers, labelbottom=False)
         set_yticks(mode, ticks, ymax)
@@ -340,6 +338,12 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
                                                                                    0:5] + "%" + ' FPS graph')
 
     complete_graph(start)
+
+
+def graph_text(ax, text_colour, title):
+    ax.set_title(title, {'color': text_colour})
+    ax.xaxis.label.set_color(text_colour)
+    ax.yaxis.label.set_color(text_colour)
 
 
 def save_graph(ax, i, out_folder, transparent_background):
