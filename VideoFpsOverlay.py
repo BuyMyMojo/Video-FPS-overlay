@@ -305,10 +305,10 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
           fps_location, mode, times, ticks=4):
     # generate graph frames
     start = time()
-    for i in range(video_frames):
+    for i in range(video_frames-preset_frame_range):
         trimrange = preset_frame_range
 
-        print("Range for time = [" + str(i) + ":" + str(trimrange + i) + "]")
+        # print("Range for time = [" + str(i) + ":" + str(trimrange + i) + "]")
 
         xaxis = []
         xaxis = xaxis_times(i, mode, times, trimrange, xaxis)
@@ -334,7 +334,7 @@ def graph(video_frames, preset_frame_range, ax, data, colour, line_width, ymin, 
         plt.xticks(times[i:trimrange + i])
         save_graph(ax, i, out_folder, transparent_background)
 
-        print('Processed frame ' + str(i + 1) + ' of ' + str(video_frames) + " " + str((i + 1) * 100 / video_frames)[
+        print('Processed frame ' + str(i + 1) + ' of ' + str(int(video_frames-preset_frame_range)) + " " + str((i + 1) * 100 / int(video_frames-preset_frame_range))[
                                                                                    0:5] + "%" + ' FPS graph')
 
     complete_graph(start)
@@ -375,7 +375,7 @@ def plot_mode(ax, colour, data, i, line_width, mode, trimrange, xaxis):
 
 def axis_limits(ax, i, times, trimrange, ymax, ymin):
     ax.set_ylim(ymin, ymax)
-    ax.set_xlim(times[i], times[trimrange + i])
+    ax.set_xlim(times[i], times[trimrange+i])
 
 
 def set_color(ax, back_colour):
