@@ -49,11 +49,11 @@
 - Jpeg export
 - Auto overlay on video
 
-| WIP Support | Nvidia FrameView  | MangoHud  | MSI Afterburner  |
-| ------------ | ------------ | ------------ | ------------ |
-| FPS | Y  | N  | N  |
-| Frame Time | Y  |  N |  N |
-| Accurate Time | ?   |  N | N |
+| WIP Support | Nvidia FrameView | Geforece Experience | MangoHud | MSI Afterburner |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| FPS | Y | N | N | N |
+| Frame Time | Y | N | N |  N |
+| Accurate Time | ? | N | N | N |
 
 #### pip requirements
 - pandas
